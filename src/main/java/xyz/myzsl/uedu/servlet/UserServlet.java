@@ -36,11 +36,8 @@ public class UserServlet extends BaseServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String imageCode = request.getParameter("imageCode");
-        System.out.println(username + " " + password);
         //从session中获取实际验证码
         String code = (String) session.getAttribute("code");
-        System.out.println(code);
-        System.out.println(imageCode);
         if (imageCode != null && imageCode.equals(code)) {
             User user = userService.getUserByUsernameAndPassword(username, password);
             if (user != null) {
@@ -80,7 +77,6 @@ public class UserServlet extends BaseServlet {
     protected void doGetUserLog(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ReturnResult returnResult = new ReturnResult();
         User userAdmin = (User) request.getSession().getAttribute("userAdminSession");
-        System.out.println(userAdmin);
         if (userAdmin != null) {
             returnResult.setMessage(userAdmin.getUsername());
             returnResult.setStatus(1);
@@ -102,9 +98,7 @@ public class UserServlet extends BaseServlet {
         String search = request.getParameter("search");
         String pageSize = request.getParameter("pageSize");
         String currentPage = request.getParameter("currentPage");
-        System.out.println(search + "" + pageSize + "" + currentPage);
         Page<User> page = userService.getUserListForPage(search, pageSize, currentPage);
-        System.out.println(page);
         if (page != null && page.getList() != null && page.getList().size() != 0) {
             returnResult = new ReturnResult("查询成功", 1, page);
         } else {
@@ -142,6 +136,21 @@ public class UserServlet extends BaseServlet {
             returnResult.setStatus(-1);
         }else {
             returnResult.setStatus(1);
+        }
+        response.getWriter().write(JSON.toJSONString(returnResult));
+    }
+
+    protected void doDeleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String[] uids = request.getParameterValues("uids");
+        Integer result = userService.deleteUserByUid(uids);
+        ReturnResult returnResult = new ReturnResult();
+        if (result == 1){
+            //删除成功
+            returnResult.setMessage("删除成功");
+            returnResult.setStatus(1);
+        }else {
+            returnResult.setMessage("删除失败");
+            returnResult.setStatus(-1);
         }
         response.getWriter().write(JSON.toJSONString(returnResult));
     }

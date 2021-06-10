@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
 
         List<User> users = userDao.queryUserListLimit(search, Integer.parseInt(pageSize), Integer.parseInt(currentPage));
         Long count = userDao.queryCount(search);
-        System.out.println("count" + count);
         Page<User> page = new Page<>();
         page.setList(users);
         page.setPageNo(Integer.parseInt(currentPage));
@@ -48,5 +47,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUsername(String username) {
         return userDao.queryUserByUsername(username);
+    }
+
+    @Override
+    public Integer deleteUserByUid(String[] uids) {
+        return userDao.deleteUserByUids(uids);
     }
 }

@@ -59,4 +59,12 @@ public interface UserDao {
      * @return User
      */
     User queryUserByUsername(String username);
+
+    /**
+     * 根据用户id删除用户
+     *
+     * @param uids 用户id
+     * @return 删除成功 - 1 ，失败 - 0
+     */
+    Integer deleteUserByUids(String[] uids);
 }

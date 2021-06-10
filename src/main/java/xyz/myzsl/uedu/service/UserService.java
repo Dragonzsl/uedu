@@ -46,8 +46,17 @@ public interface UserService {
 
     /**
      * 根据用户名查询用户
+     *
      * @param username 真实姓名
      * @return User
      */
     User getUserByUsername(String username);
+
+    /**
+     * 根据用户id删除用户
+     *
+     * @param uids 用户id
+     * @return 删除成功 - 1 ，失败 - 0
+     */
+    Integer deleteUserByUid(String[] uids);
 }

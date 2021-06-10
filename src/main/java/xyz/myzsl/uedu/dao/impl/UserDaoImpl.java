@@ -48,4 +48,28 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao {
         return queryOne("select * from user where username = ?", username);
     }
 
+    @Override
+    public Integer deleteUserByUids(String[] uids) {
+        /*StringBuilder s = new StringBuilder("(");
+        for (int i = 0; i < uids.length-1; i++) {
+
+            s.append(uids[i]).append(",");
+        }
+        s.append(uids[uids.length-1]).append(")");
+        System.out.println(s);*/
+        int flag = 1;
+        for (String uid : uids) {
+            int i = Integer.parseInt(uid);
+            int update = update("update user set status=? where uid = ?", 2, i);
+            if (update!=1){
+                flag=0;
+            }
+
+        }
+        if (flag!=1){
+            return 0;
+        }else {
+            return 1;
+        }
+    }
 }
