@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="uedu-server:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>uedu-server</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="uedu-server-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="uedu-server:war exploded" />
+    </root>
+  </artifact>
+</component>
