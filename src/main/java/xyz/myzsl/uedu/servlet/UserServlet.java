@@ -35,9 +35,11 @@ public class UserServlet extends BaseServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String imageCode = request.getParameter("imageCode");
-
+        System.out.println(username+" "+password);
         //从session中获取实际验证码
         String code = (String) session.getAttribute("code");
+        System.out.println(code);
+        System.out.println(imageCode);
         if (imageCode != null && imageCode.equals(code)){
             User user = userService.getUserByUsernameAndPassword(username,password);
             if (user != null){
@@ -52,7 +54,7 @@ public class UserServlet extends BaseServlet {
                         returnResult.setMessage("【"+user.getUsername()+"】登陆成功");
                         returnResult.setStatus(1);
                         returnResult.setData(user);
-                        session.setAttribute("userSession", user);
+                        session.setAttribute("userAdminSession", user);
                     }else {
                         //不是管理员
                         returnResult.setMessage("您不是管理员");
@@ -73,4 +75,35 @@ public class UserServlet extends BaseServlet {
         response.getWriter().write(JSON.toJSONString(returnResult));
 
     }
+
+    protected void doGetUserLog(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ReturnResult returnResult = new ReturnResult();
+        User userAdmin = (User) request.getSession().getAttribute("userAdminSession");
+        System.out.println(userAdmin);
+        if (userAdmin!=null){
+            returnResult.setMessage(userAdmin.getUsername());
+            returnResult.setStatus(1);
+        }else {
+            returnResult.setMessage("请先登录");
+            returnResult.setStatus(-1);
+        }
+        response.getWriter().write(JSON.toJSONString(returnResult));
+    }
+
+    protected void doLogOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getSession().invalidate();
+        ReturnResult returnResult = new ReturnResult("退出成功,即将跳往登陆页面",1,null);
+        response.getWriter().write(JSON.toJSONString(returnResult));
+    }
+
+
+
+
+
+
+
+
+
+
+
 }

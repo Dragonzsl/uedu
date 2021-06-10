@@ -13,6 +13,10 @@
             <param-name>kaptcha.session.key</param-name>
             <param-value>code</param-value>
         </init-param>
+        <init-param>
+            <param-name>kaptcha.textproducer.char.length</param-name>
+            <param-value>1</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>KaptchaServlet</servlet-name>
